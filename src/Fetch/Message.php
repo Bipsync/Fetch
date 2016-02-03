@@ -523,7 +523,9 @@ class Message
             if (!empty($parameters['charset']) && $parameters['charset'] !== self::$charset) {
                 $mb_converted = false;
                 if (function_exists('mb_convert_encoding')) {
-                    if (!in_array($parameters['charset'], mb_list_encodings())) {
+                    $encs = mb_list_encodings();
+                    $encsLower = array_map( 'strtolower', $encs );
+                    if (!in_array(strtolower($parameters['charset']), $encsLower)) {
                         if ($structure->encoding === 0) {
                             $parameters['charset'] = 'US-ASCII';
                         } else {
